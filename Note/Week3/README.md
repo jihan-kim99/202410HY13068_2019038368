@@ -203,16 +203,14 @@ void enQueue(struct Queue* q, int data){
   q->rear = temp;
 }
 
-int deQueue(struct Queue* q){
+void deQueue(struct Queue* q){
   if (q->front == NULL)
-    return INT_MIN;
+    return;
   struct QNode* temp = q->front;
   q->front = q->front->next;
   if (q->front == NULL)
     q->rear = NULL;
-  int popped = temp->data;
   free(temp);
-  return popped;
 }
 ```
 
