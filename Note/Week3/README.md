@@ -255,7 +255,7 @@ int deQueue(struct Queue* queue){
   if (isEmpty(queue))
     return INT_MIN;
   int item = queue->array[queue->front];
-  queue->front = (queue->front - 1) % queue->capacity; // 맨 끝의 경우 대비
+  queue->front = (queue->front + 1) % queue->capacity; // 맨 끝의 경우 대비
   queue->size = queue->size - 1;
   return item;
 }
@@ -267,6 +267,9 @@ int main(){
   enQueue(queue, 30);
   printf("%d dequeued from queue\n", deQueue(queue));
   return 0;
-
 }
 ```
+
+Now we know how to make the stack and queue using Array and Linked List
+
+All of them has only constant compacity.
