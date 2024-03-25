@@ -164,7 +164,7 @@ bool IsFull(Stack* S){
 };
 
 void EndPhase(Stack* S){
-	// free the stack
+	// free the stack and close the files	
 	fclose(fin);
 	fclose(fout);
 	DeleteStack(S);
