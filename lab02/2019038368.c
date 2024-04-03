@@ -19,14 +19,14 @@ LE* Find(LE* header, int target_key);
 LE* FindPrevious(LE* header, int target_key);
 
 void Insert(LE* header, int inserted_key, int target_key){
-    // 이미 존재하는 경우
-    if (Find(header, inserted_key) != NULL){
-        fprintf(fout, "Insertion %d Failed: the key already exist\n", inserted_key);
+    // 찾는 key가 없는 경우
+    if (Find(header, target_key) == NULL){
+        fprintf(fout, "Insertion %d Failed: can not find location\n", inserted_key);
         return;
     }
-    // 찾는 key가 없는 경우
-    else if (Find(header, target_key) == NULL){
-        fprintf(fout, "Insertion %d Failed: cannot find location\n", target_key);
+    // 이미 존재하는 경우
+    else if (Find(header, inserted_key) != NULL){
+        fprintf(fout, "Insertion %d Failed: the key already exist\n", inserted_key);
         return;
     }
     // 찾는 key가 있는 경우 & 넣을 키가 없는 경우 & 찾는 key가 마지막 노드인 경우
@@ -58,7 +58,7 @@ void Delete(LE* header, int target_key){
     LE* previous = FindPrevious(header, target_key); // FindPrevious를 사용하여 previous 찾기
     LE* current = Find(header, target_key); // Find를 사용하여 current 찾기
     if(current == NULL){ // current가 NULL인 경우 존재하지 않는 노드이다
-        fprintf(fout, "Deletion %d Failed: no such key exists\n", target_key);
+        fprintf(fout, "Deletion %d Failed:  node is not in the list\n", target_key);
     }
     else{ // current가 NULL이 아닌 경우 존재하는 노드이다
         previous->next_pointer = current->next_pointer; // previous의 next_pointer를 target_key의 next_pointer로 변경
@@ -102,7 +102,7 @@ void PrintPrevious(LE* header, int target_key){
         fprintf(fout, "Finding %d Failed: node is not on the list\n", target_key); // previous가 NULL인 경우 없는 노드
     }
     else if(previous->key == -1){ // previous가 header인 경우
-        fprintf(fout, "previous node of %d is header\n", target_key);
+        fprintf(fout, "previous node of %d is head\n", target_key);
     }
     else{ // previous가 header가 아닌 경우
         fprintf(fout, "previous node of %d is %d\n", target_key, previous->key);
@@ -118,7 +118,7 @@ void PrintList(LE* header){
         current = current->next_pointer; // 다음 노드로 이동
     }
     if(header->next_pointer == NULL){
-        fprintf(fout, "empty\n"); // 노드가 없는 경우 empty 출력
+        fprintf(fout, "empty list\n"); // 노드가 없는 경우 empty 출력
         return;
     }
     fprintf(fout, "\n"); // 개행
@@ -147,7 +147,7 @@ void DeleteList(LE* header){
     }
 }
 
-void main(int argc, char* argv[]){
+int main(int argc, char* argv[]){
 	fin = fopen(argv[1], "r");
 	fout = fopen(argv[2], "w");
 	char command;
@@ -179,5 +179,5 @@ void main(int argc, char* argv[]){
 	DeleteList(header);
 	fclose(fin);
 	fclose(fout);
-	return;
+	return 0;
 }

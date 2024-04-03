@@ -158,3 +158,9 @@ int main() {
 ```
 
 Time complexity will be only $\Theta(n)$
+
+### Time complexity
+
+| Search | Insert      | Dequeue     | Build       |
+| ------ | ----------- | ----------- | ----------- |
+| O(n)   | $O(\log n)$ | $O(\log n)$ | $\Theta(n)$ |
