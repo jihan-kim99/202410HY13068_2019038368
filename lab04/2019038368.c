@@ -19,6 +19,7 @@ void DeleteTree(TREE* current);
 void printPreorder(TREE* current);
 void printInorder(TREE* current);
 void printPostorder(TREE* current);
+void closeAll(int* array);
 
 
 void DeleteTree(TREE* current){
@@ -86,6 +87,12 @@ void CreateFromArray(TREE* current, int current_index, int* inserted_data_array,
     }
 }
 
+void closeAll(int* array){
+    free(array);
+    fclose(fin);
+    fclose(fout);
+}
+
 void main(int argc, char* argv[]){
 	fin = fopen(argv[1], "r");
 	fout = fopen(argv[2], "w");
@@ -96,7 +103,11 @@ void main(int argc, char* argv[]){
 	int* array = malloc(sizeof(int) * (NUM_NODES + 1));
 	array[0] = -1;
 	for(int i = 0; i < NUM_NODES; i++){
-	    fscanf(fin, "%d", &input_data);
+    if (fscanf(fin, "%d", &input_data) != 1) { // 파일에서 숫자를 읽어 온다 실패시 에러 출력
+        fprintf(fout, "Error: Failed to read an integer from the input file.\n");
+        closeAll(array);
+        return -1;
+    }
 	    array[i + 1] = input_data;
 	}
 	TREE* header = malloc(sizeof(TREE));
@@ -106,8 +117,7 @@ void main(int argc, char* argv[]){
 	printInorder(header);
 	fprintf(fout, "\n");
 	printPostorder(header);
-	DeleteTree(header);
-	fclose(fin);
-	fclose(fout);
+    DeleteTree(header);
+    closeAll(array);
 	return;
 }
